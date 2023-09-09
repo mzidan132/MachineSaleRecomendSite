@@ -16,6 +16,13 @@ if (isset($_POST['add_product'])) {
    $name = filter_var($name, FILTER_SANITIZE_STRING);
    $price = $_POST['price'];
    $price = filter_var($price, FILTER_SANITIZE_STRING);
+   $horsepower = filter_var($horsepower, FILTER_SANITIZE_STRING);
+   $horsepower = $_POST['horsepower'];
+   $depth = filter_var($depth, FILTER_SANITIZE_STRING);
+   $depth = $_POST['depth'];
+   $weight = filter_var($weight, FILTER_SANITIZE_STRING);
+   $weight = $_POST['weight'];
+  
    $category = $_POST['category'];
    $category = filter_var($category, FILTER_SANITIZE_STRING);
 
@@ -36,8 +43,8 @@ if (isset($_POST['add_product'])) {
       } else {
          move_uploaded_file($image_tmp_name, $image_folder);
 
-         $insert_product = $conn->prepare("INSERT INTO `products`(name, category, price, image) VALUES(?,?,?,?)");
-         $insert_product->execute([$name,  $category, $price, $image]);
+         $insert_product = $conn->prepare("INSERT INTO `products`(name, category, price,horsepower,depth,weight, image) VALUES(?,?,?,?,?,?,?)");
+         $insert_product->execute([$name,  $category, $price,$horsepower,$depth,$weight, $image]);
 
          $message[] = 'new product added!';
       }
@@ -90,11 +97,14 @@ if (isset($_GET['delete'])) {
          <h3>add product</h3>
          <input type="text" required placeholder="enter product name" name="name" maxlength="100" class="box">
          <input type="number" min="0" max="9999999999" required placeholder="enter product price" name="price" onkeypress="if(this.value.length == 10) return false;" class="box">
+         <input type="number" required placeholder="enter product horsepower" name="horsepower" maxlength="100" class="box">
+         <input type="number" required placeholder="enter product depth" name="depth" maxlength="10000" class="box">
+         <input type="number" required placeholder="enter product weight" name="weight" maxlength="10000" class="box">
          <select name="category" class="box" required>
             <option value="" disabled selected>select category --</option>
-            <option value="solid"> solid</option>
-            <option value="liquid">liquid</option>
-            <option value="drinks">gaseous</option>
+            <option value="metal">Metal </option>
+            <option value="oil">Oil</option>
+            <option value="drinks">Sand</option>
          </select>
          <input type="file" name="image" class="box" accept="image/jpg, image/jpeg, image/png, image/webp" required>
          <input type="submit" value="add product" name="add_product" class="btn">

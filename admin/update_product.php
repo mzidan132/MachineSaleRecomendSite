@@ -18,11 +18,17 @@ if (isset($_POST['update'])) {
    $name = filter_var($name, FILTER_SANITIZE_STRING);
    $price = $_POST['price'];
    $price = filter_var($price, FILTER_SANITIZE_STRING);
+   $horsepower = filter_var($horsepower, FILTER_SANITIZE_STRING);
+   $horsepower = $_POST['horsepower'];
+   $depth = filter_var($depth, FILTER_SANITIZE_STRING);
+   $depth = $_POST['depth'];
+   $weight = filter_var($weight, FILTER_SANITIZE_STRING);
+   $weight = $_POST['weight'];
    $category = $_POST['category'];
    $category = filter_var($category, FILTER_SANITIZE_STRING);
 
-   $update_product = $conn->prepare("UPDATE `products` SET name = ?, category = ?, price = ? WHERE id = ?");
-   $update_product->execute([$name, $category, $price, $pid]);
+   $update_product = $conn->prepare("UPDATE `products` SET name = ?, category = ?, price = ?, horsepower=?,depth=?,weight=? WHERE id = ?");
+   $update_product->execute([$name, $category, $price,$horsepower,$depth,$weight, $pid]);
 
    $message[] = 'product updated!';
 
@@ -88,14 +94,23 @@ if (isset($_POST['update'])) {
                <img src="../uploaded_img/<?= $fetch_products['image']; ?>" alt="">
                <span>update name</span>
                <input type="text" required placeholder="enter product name" name="name" maxlength="100" class="box" value="<?= $fetch_products['name']; ?>">
+               
                <span>update price</span>
                <input type="number" min="0" max="9999999999" required placeholder="enter product price" name="price" onkeypress="if(this.value.length == 10) return false;" class="box" value="<?= $fetch_products['price']; ?>">
+               
+               <span>update horsepower</span>
+               <input type="number" min="0" max="9999999999" required placeholder="enter product hp" name="horsepower" onkeypress="if(this.value.length == 10) return false;" class="box" value="<?= $fetch_products['horsepower']; ?>">
+               <span>update depth</span>
+               <input type="number" min="0" max="9999999999" required placeholder="enter product depth" name="depth" onkeypress="if(this.value.length == 10) return false;" class="box" value="<?= $fetch_products['depth']; ?>">
+               <span>update weight</span>
+               <input type="number" min="0" max="9999999999" required placeholder="enter product weight" name="weight" onkeypress="if(this.value.length == 10) return false;" class="box" value="<?= $fetch_products['weight']; ?>">
                <span>update category</span>
+
                <select name="category" class="box" required>
                   <option selected value="<?= $fetch_products['category']; ?>"><?= $fetch_products['category']; ?></option>
-                  <option value="solid">solid</option>
-                  <option value="liquid">liquid</option>
-                  <option value="gaseous">gaseous</option>
+                  <option value="metal">Metal</option>
+                  <option value="oil">Oil</option>
+                  <option value="sand">Sand</option>
           
                </select>
                <span>update image</span>
